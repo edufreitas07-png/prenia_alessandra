@@ -644,20 +644,24 @@
 
     .hero{ padding-top: 7.5rem; }
     .hero-grid{ grid-template-columns: 1fr; gap: var(--espaco-m); }
-    .hero-imagem{ order:-1; aspect-ratio: 4/3; }
+    .hero-imagem{ order:-1; }
     .hero-texto p{ max-width: none; }
 
     .destaques-grid{ grid-template-columns: 1fr; gap: var(--espaco-s); }
     .sobre-grid{ grid-template-columns: 1fr; }
+    .sobre-imagem{ order:-1; }
+    .hero-imagem,
     .sobre-imagem{
-      order:-1;
       aspect-ratio: auto;
+      height: auto;
       overflow: hidden;
     }
+    .hero-imagem img,
     .sobre-imagem img{
       width: 100%;
       height: auto;
       object-fit: contain;
+      object-position: center;
       display: block;
     }
     .servicos-grid{ grid-template-columns: 1fr; }
