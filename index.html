@@ -631,7 +631,17 @@
 
     .destaques-grid{ grid-template-columns: 1fr; gap: var(--espaco-s); }
     .sobre-grid{ grid-template-columns: 1fr; }
-    .sobre-imagem{ order:-1; aspect-ratio: 16/10; }
+    .sobre-imagem{
+      order:-1;
+      aspect-ratio: auto;
+      overflow: hidden;
+    }
+    .sobre-imagem img{
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      display: block;
+    }
     .servicos-grid{ grid-template-columns: 1fr; }
 
     .videos-faixa{
