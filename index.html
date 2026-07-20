@@ -525,24 +525,85 @@
   /* BOTÃO FLUTUANTE WHATSAPP */
   .whatsapp-flutuante{
     position: fixed;
-    right: 16px;
-    top: 58%;
-    transform: translateY(-50%);
-    z-index: 900;
-    width: 48px; height: 48px;
+    right: 22px;
+    bottom: calc(22px + env(safe-area-inset-bottom, 0px));
+    z-index: 1200;
+
+    width: 52px;
+    height: 52px;
     border-radius: 50%;
+
     background: var(--dourado-suave);
     color: var(--preto);
-    display:flex; align-items:center; justify-content:center;
-    box-shadow: var(--sombra-suave);
-    transition: transform 0.35s ease, background 0.35s ease;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    box-shadow:
+      0 8px 24px rgba(17,17,16,0.24),
+      0 0 0 0 rgba(203,179,127,0.35);
+
+    transition:
+      transform 0.3s ease,
+      background 0.3s ease,
+      box-shadow 0.3s ease;
+
+    animation: pulso-whatsapp 2.8s ease-in-out infinite;
   }
-  .whatsapp-flutuante:hover{ transform: translateY(-50%) scale(1.08); background: var(--dourado); color: var(--preto); }
-  .whatsapp-flutuante svg{ width:22px; height:22px; }
+
+  .whatsapp-flutuante:hover{
+    transform: scale(1.07);
+    background: var(--dourado);
+    color: var(--preto);
+    box-shadow:
+      0 10px 28px rgba(17,17,16,0.3),
+      0 0 0 7px rgba(203,179,127,0.12);
+  }
+
+  .whatsapp-flutuante:active{
+    transform: scale(0.96);
+  }
+
+  .whatsapp-flutuante svg{
+    width: 23px;
+    height: 23px;
+  }
+
+  @keyframes pulso-whatsapp{
+    0%, 100%{
+      transform: scale(1);
+      box-shadow:
+        0 8px 24px rgba(17,17,16,0.24),
+        0 0 0 0 rgba(203,179,127,0.30);
+    }
+
+    50%{
+      transform: scale(1.035);
+      box-shadow:
+        0 10px 26px rgba(17,17,16,0.28),
+        0 0 0 7px rgba(203,179,127,0);
+    }
+  }
 
   @media (max-width: 900px){
-    .whatsapp-flutuante{ width:44px; height:44px; right:12px; }
-    .whatsapp-flutuante svg{ width:20px; height:20px; }
+    .whatsapp-flutuante{
+      width: 48px;
+      height: 48px;
+      right: 14px;
+      bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+    }
+
+    .whatsapp-flutuante svg{
+      width: 21px;
+      height: 21px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .whatsapp-flutuante{
+      animation: none;
+    }
   }
 
   /* ANIMAÇÃO DE ENTRADA AO ROLAR */
