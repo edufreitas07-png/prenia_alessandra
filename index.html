@@ -177,6 +177,13 @@
     border-bottom: 1px solid rgba(42,38,34,0.08);
     transition: background 0.4s ease;
   }
+  header.menu-aberto{
+    background: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border-bottom-color: transparent;
+    box-shadow: none !important;
+  }
   .header-conteudo{
     display:flex;
     align-items:center;
@@ -230,10 +237,21 @@
   .btn-hamburguer.aberto span:nth-child(1){ transform: translateY(6.5px) rotate(45deg); }
   .btn-hamburguer.aberto span:nth-child(2){ opacity:0; }
   .btn-hamburguer.aberto span:nth-child(3){ transform: translateY(-6.5px) rotate(-45deg); }
+  .btn-hamburguer.aberto span{ background: var(--texto-claro); }
 
   .menu-mobile{
     position: fixed;
-    inset:0;
+    inset: 0;
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding:
+      calc(5rem + env(safe-area-inset-top, 0px))
+      1.5rem
+      calc(2rem + env(safe-area-inset-bottom, 0px));
+    overflow-y: auto;
     background: var(--preto);
     display:flex;
     flex-direction: column;
@@ -935,11 +953,17 @@
      ================================================ */
   const btnHamburguer = document.getElementById("btnHamburguer");
   const menuMobile = document.getElementById("menuMobile");
+  const cabecalho = document.querySelector("header");
 
   function alternarMenu(){
     const aberto = menuMobile.classList.toggle("aberto");
+    cabecalho.classList.toggle("menu-aberto", aberto);
     btnHamburguer.classList.toggle("aberto", aberto);
     btnHamburguer.setAttribute("aria-expanded", aberto ? "true" : "false");
+    btnHamburguer.setAttribute(
+      "aria-label",
+      aberto ? "Fechar menu" : "Abrir menu"
+    );
     document.body.style.overflow = aberto ? "hidden" : "";
   }
 
@@ -1033,7 +1057,6 @@
   /* ================================================
      CABEÇALHO — leve sombra ao rolar
      ================================================ */
-  const cabecalho = document.querySelector("header");
   window.addEventListener("scroll", function(){
     if(window.scrollY > 12){
       cabecalho.style.boxShadow = "0 8px 24px -18px rgba(17,17,16,0.4)";
