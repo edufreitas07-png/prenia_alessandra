@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alessandra — Beleza & Transformação</title>
+<meta name="description" content="Atendimento personalizado em beleza e cabelos, com técnicas profissionais e resultados naturais.">
+
+<style>
+  /* ============================================================
+     TOKENS — paleta, tipografia, espaçamento
+     ============================================================ */
+  :root{
+    --preto: #111110;
+    --preto-suave: #1c1b19;
+    --branco: #fffdfa;
+    --bege: #efe6d8;
+    --bege-claro: #f7f2e9;
+    --dourado: #b99a5b;
+    --dourado-suave: #cbb37f;
+    --texto-claro: #f4efe4;
+    --texto-escuro: #2a2622;
+    --texto-medio: #6b6255;
+
+    --serif: Georgia, "Times New Roman", Times, serif;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+    --espaco-xs: 0.5rem;
+    --espaco-s: 1rem;
+    --espaco-m: 2rem;
+    --espaco-l: 4rem;
+    --espaco-xl: 7rem;
+
+    --raio: 18px;
+    --raio-peq: 10px;
+    --sombra: 0 20px 45px -20px rgba(17,17,16,0.35);
+    --sombra-suave: 0 10px 30px -15px rgba(17,17,16,0.25);
+
+    --duracao: 0.7s;
+  }
+
+  *,*::before,*::after{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior: auto; }
+    *,*::before,*::after{
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  body{
+    margin:0;
+    font-family: var(--sans);
+    color: var(--texto-escuro);
+    background: var(--branco);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  img{ max-width:100%; display:block; }
+  a{ color: inherit; text-decoration: none; }
+  ul{ list-style:none; margin:0; padding:0; }
+  button{ font-family: inherit; cursor:pointer; }
+
+  .container{
+    width: 100%;
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 var(--espaco-m);
+  }
+
+  .eyebrow{
+    display:flex;
+    align-items:center;
+    gap: 0.6rem;
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--dourado);
+    font-weight: 600;
+    margin-bottom: var(--espaco-s);
+  }
+  .eyebrow::before{
+    content:"";
+    width: 22px;
+    height: 1px;
+    background: var(--dourado);
+    display:inline-block;
+  }
+
+  h1,h2,h3{
+    font-family: var(--serif);
+    font-weight: 400;
+    line-height: 1.15;
+    margin: 0;
+    color: var(--texto-escuro);
+  }
+
+  .titulo-secao{
+    font-size: clamp(1.9rem, 3.6vw, 2.7rem);
+    margin-bottom: var(--espaco-m);
+  }
+
+  p{ line-height: 1.75; color: var(--texto-medio); }
+
+  /* assinatura visual: sublinhado dourado que se desenha */
+  .traco-assinatura{
+    position: relative;
+    display:inline-block;
+  }
+  .traco-assinatura::after{
+    content:"";
+    position:absolute;
+    left:0; bottom:-10px;
+    height:2px;
+    width:100%;
+    background: linear-gradient(90deg, var(--dourado), transparent);
+    transform-origin: left;
+    transform: scaleX(0);
+    animation: desenhar-traco 1.4s 0.5s cubic-bezier(.4,0,.2,1) forwards;
+  }
+  @keyframes desenhar-traco{ to{ transform: scaleX(1); } }
+
+  .botao{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap: 0.5rem;
+    padding: 0.95rem 1.9rem;
+    border-radius: 999px;
+    font-size: 0.92rem;
+    letter-spacing: 0.02em;
+    font-weight: 600;
+    border: 1px solid transparent;
+    transition: transform 0.35s ease, box-shadow 0.35s ease, background 0.35s ease, color 0.35s ease;
+    white-space: nowrap;
+  }
+  .botao-primario{
+    background: var(--preto);
+    color: var(--texto-claro);
+  }
+  .botao-primario:hover{
+    transform: translateY(-2px);
+    box-shadow: var(--sombra-suave);
+    background: var(--dourado);
+    color: var(--preto);
+  }
+  .botao-secundario{
+    background: transparent;
+    color: var(--texto-escuro);
+    border-color: rgba(42,38,34,0.25);
+  }
+  .botao-secundario:hover{
+    border-color: var(--dourado);
+    color: var(--dourado);
+    transform: translateY(-2px);
+  }
+  .botao:focus-visible, a:focus-visible, button:focus-visible{
+    outline: 2px solid var(--dourado);
+    outline-offset: 3px;
+  }
+
+  /* ============================================================
+     CABEÇALHO
+     ============================================================ */
+  header{
+    position: fixed;
+    top:0; left:0; right:0;
+    z-index: 1000;
+    background: rgba(255,253,250,0.86);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(42,38,34,0.08);
+    transition: background 0.4s ease;
+  }
+  .header-conteudo{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding: 1.15rem var(--espaco-m);
+  }
+  .logo{
+    font-family: var(--serif);
+    font-size: 1.5rem;
+    letter-spacing: 0.03em;
+  }
+  nav.menu-desktop ul{
+    display:flex;
+    gap: 2.2rem;
+    font-size: 0.9rem;
+  }
+  nav.menu-desktop a{
+    position:relative;
+    padding: 0.3rem 0;
+    color: var(--texto-escuro);
+    transition: color 0.3s ease;
+  }
+  nav.menu-desktop a::after{
+    content:"";
+    position:absolute;
+    left:0; bottom:-2px;
+    width:0; height:1px;
+    background: var(--dourado);
+    transition: width 0.3s ease;
+  }
+  nav.menu-desktop a:hover{ color: var(--dourado); }
+  nav.menu-desktop a:hover::after{ width:100%; }
+
+  .header-direita{ display:flex; align-items:center; gap: 1.6rem; }
+
+  .btn-hamburguer{
+    display:none;
+    flex-direction: column;
+    gap: 5px;
+    background:none;
+    border:none;
+    padding: 0.4rem;
+    z-index: 1100;
+  }
+  .btn-hamburguer span{
+    width: 24px; height: 1.5px;
+    background: var(--texto-escuro);
+    transition: transform 0.35s ease, opacity 0.35s ease;
+    border-radius: 2px;
+  }
+  .btn-hamburguer.aberto span:nth-child(1){ transform: translateY(6.5px) rotate(45deg); }
+  .btn-hamburguer.aberto span:nth-child(2){ opacity:0; }
+  .btn-hamburguer.aberto span:nth-child(3){ transform: translateY(-6.5px) rotate(-45deg); }
+
+  .menu-mobile{
+    position: fixed;
+    inset:0;
+    background: var(--preto);
+    display:flex;
+    flex-direction: column;
+    align-items:center;
+    justify-content:center;
+    gap: 2.1rem;
+    transform: translateY(-100%);
+    transition: transform 0.5s cubic-bezier(.4,0,.2,1);
+    z-index: 1050;
+  }
+  .menu-mobile.aberto{ transform: translateY(0); }
+  .menu-mobile a{
+    color: var(--texto-claro);
+    font-family: var(--serif);
+    font-size: 1.6rem;
+  }
+  .menu-mobile .botao-primario{
+    background: var(--dourado);
+    color: var(--preto);
+  }
+
+  /* ============================================================
+     HERO
+     ============================================================ */
+  .hero{
+    padding: 9.5rem var(--espaco-m) var(--espaco-xl);
+    background: linear-gradient(180deg, var(--bege-claro) 0%, var(--branco) 65%);
+  }
+  .hero-grid{
+    max-width: 1180px;
+    margin: 0 auto;
+    display:grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: var(--espaco-l);
+    align-items:center;
+  }
+  .hero-texto h1{
+    font-size: clamp(2.3rem, 4.6vw, 3.6rem);
+    margin-bottom: var(--espaco-m);
+  }
+  .hero-texto p{
+    font-size: 1.08rem;
+    max-width: 480px;
+    margin-bottom: var(--espaco-m);
+  }
+  .hero-botoes{ display:flex; gap: 1rem; flex-wrap: wrap; }
+
+  .hero-imagem{
+    position: relative;
+    border-radius: var(--raio);
+    overflow:hidden;
+    box-shadow: var(--sombra);
+    aspect-ratio: 4/5;
+  }
+  .hero-imagem img{
+    width:100%; height:100%;
+    object-fit: cover;
+  }
+  .hero-imagem::after{
+    content:"";
+    position:absolute; inset:0;
+    background: linear-gradient(180deg, rgba(17,17,16,0) 60%, rgba(17,17,16,0.25) 100%);
+    pointer-events:none;
+  }
+  .hero-imagem-moldura{
+    position:absolute;
+    inset: -14px;
+    border: 1px solid var(--dourado-suave);
+    border-radius: calc(var(--raio) + 10px);
+    z-index:-1;
+    opacity: 0.6;
+  }
+
+  /* ============================================================
+     DESTAQUES
+     ============================================================ */
+  .destaques{
+    padding: var(--espaco-l) var(--espaco-m);
+    background: var(--branco);
+  }
+  .destaques-grid{
+    max-width: 1180px;
+    margin:0 auto;
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--espaco-m);
+  }
+  .destaque-card{
+    text-align:center;
+    padding: var(--espaco-m) var(--espaco-s);
+  }
+  .destaque-icone{
+    width: 52px; height: 52px;
+    margin: 0 auto var(--espaco-s);
+    display:flex; align-items:center; justify-content:center;
+    border: 1px solid var(--bege);
+    border-radius: 50%;
+    color: var(--dourado);
+  }
+  .destaque-card h3{
+    font-size: 1.15rem;
+    margin-bottom: 0.5rem;
+  }
+  .destaque-card p{ font-size: 0.92rem; margin:0; }
+
+  /* ============================================================
+     SEÇÕES GERAIS
+     ============================================================ */
+  section{ position: relative; }
+  .secao{ padding: var(--espaco-xl) var(--espaco-m); }
+  .secao-clara{ background: var(--branco); }
+  .secao-bege{ background: var(--bege-claro); }
+  .secao-escura{ background: var(--preto); color: var(--texto-claro); }
+  .secao-escura p{ color: rgba(244,239,228,0.72); }
+  .secao-escura .titulo-secao{ color: var(--texto-claro); }
+
+  /* SOBRE */
+  .sobre-grid{
+    max-width: 1180px;
+    margin: 0 auto;
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--espaco-l);
+    align-items:center;
+  }
+  .sobre-imagem{
+    border-radius: var(--raio);
+    overflow:hidden;
+    box-shadow: var(--sombra-suave);
+    aspect-ratio: 3/4;
+  }
+  .sobre-imagem img{ width:100%; height:100%; object-fit:cover; }
+  .sobre-texto p{ font-size: 1.03rem; margin-bottom: var(--espaco-s); }
+
+  /* SERVIÇOS */
+  .servicos-grid{
+    max-width: 1180px;
+    margin: 0 auto;
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--espaco-m);
+  }
+  .servico-card{
+    background: var(--branco);
+    border: 1px solid rgba(185,154,91,0.18);
+    border-radius: var(--raio);
+    padding: var(--espaco-m) var(--espaco-m);
+    transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+  }
+  .servico-card:hover{
+    transform: translateY(-6px);
+    box-shadow: var(--sombra-suave);
+    border-color: var(--dourado);
+  }
+  .servico-numero{
+    font-family: var(--serif);
+    font-size: 0.85rem;
+    color: var(--dourado);
+    letter-spacing: 0.1em;
+  }
+  .servico-card h3{
+    font-size: 1.2rem;
+    margin: 0.7rem 0 0.6rem;
+  }
+  .servico-card p{ font-size: 0.92rem; margin:0; }
+
+  /* VÍDEOS */
+  .videos-titulo{ text-align:center; max-width: 640px; margin: 0 auto var(--espaco-l); }
+  .videos-titulo .titulo-secao{ margin-bottom: var(--espaco-s); }
+  .videos-faixa{
+    max-width: 1180px;
+    margin: 0 auto;
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--espaco-m);
+  }
+  .video-card{
+    position: relative;
+    border-radius: var(--raio);
+    overflow:hidden;
+    box-shadow: var(--sombra);
+    aspect-ratio: 9/16;
+    background: var(--preto-suave);
+  }
+  .video-card video{
+    width:100%; height:100%;
+    object-fit: cover;
+    display:block;
+  }
+  .video-card::after{
+    content:"";
+    position:absolute; inset:0;
+    background: linear-gradient(180deg, rgba(17,17,16,0) 55%, rgba(17,17,16,0.55) 100%);
+    pointer-events:none;
+  }
+  .video-legenda{
+    position:absolute;
+    left: 1rem; bottom: 1rem;
+    z-index:2;
+    color: var(--texto-claro);
+    font-family: var(--serif);
+    font-size: 0.98rem;
+    letter-spacing: 0.02em;
+  }
+  .btn-video{
+    position:absolute;
+    right: 0.85rem; bottom: 0.85rem;
+    z-index:2;
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: rgba(255,253,250,0.9);
+    border:none;
+    display:flex; align-items:center; justify-content:center;
+    color: var(--preto);
+    transition: transform 0.3s ease, background 0.3s ease;
+  }
+  .btn-video:hover{ transform: scale(1.08); background: var(--dourado); }
+  .btn-video svg{ width:16px; height:16px; }
+
+  /* CTA */
+  .cta{
+    text-align:center;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  .cta .titulo-secao{ margin-bottom: var(--espaco-s); }
+  .cta p{ margin-bottom: var(--espaco-m); }
+
+  /* INSTAGRAM */
+  .instagram{
+    text-align:center;
+    padding: var(--espaco-l) var(--espaco-m);
+    background: var(--bege-claro);
+  }
+  .instagram p{
+    margin-bottom: var(--espaco-s);
+    font-family: var(--serif);
+    font-size: 1.2rem;
+    color: var(--texto-escuro);
+  }
+
+  /* RODAPÉ */
+  footer{
+    background: var(--preto);
+    color: rgba(244,239,228,0.65);
+    padding: var(--espaco-l) var(--espaco-m) var(--espaco-m);
+  }
+  .rodape-grid{
+    max-width: 1180px;
+    margin: 0 auto;
+    display:flex;
+    justify-content:space-between;
+    flex-wrap: wrap;
+    gap: var(--espaco-m);
+    padding-bottom: var(--espaco-m);
+    border-bottom: 1px solid rgba(244,239,228,0.12);
+  }
+  .rodape-marca{ font-family: var(--serif); font-size: 1.4rem; color: var(--texto-claro); margin-bottom: 0.6rem; }
+  .rodape-links{ display:flex; gap: 1.6rem; }
+  .rodape-links a{ transition: color 0.3s ease; font-size: 0.9rem; }
+  .rodape-links a:hover{ color: var(--dourado-suave); }
+  .rodape-base{
+    max-width: 1180px;
+    margin: 0 auto;
+    padding-top: var(--espaco-m);
+    font-size: 0.8rem;
+    display:flex;
+    justify-content:space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  /* BOTÃO FLUTUANTE WHATSAPP */
+  .whatsapp-flutuante{
+    position: fixed;
+    right: 1.3rem;
+    bottom: 1.3rem;
+    z-index: 900;
+    width: 54px; height: 54px;
+    border-radius: 50%;
+    background: var(--preto);
+    color: var(--texto-claro);
+    display:flex; align-items:center; justify-content:center;
+    box-shadow: var(--sombra-suave);
+    transition: transform 0.35s ease, background 0.35s ease;
+  }
+  .whatsapp-flutuante:hover{ transform: scale(1.08); background: var(--dourado); color: var(--preto); }
+  .whatsapp-flutuante svg{ width:24px; height:24px; }
+
+  /* ANIMAÇÃO DE ENTRADA AO ROLAR */
+  .surge{
+    opacity:0;
+    transform: translateY(28px);
+    transition: opacity var(--duracao) ease, transform var(--duracao) ease;
+  }
+  .surge.visivel{ opacity:1; transform: translateY(0); }
+  .surge-atraso-1{ transition-delay: 0.1s; }
+  .surge-atraso-2{ transition-delay: 0.2s; }
+  .surge-atraso-3{ transition-delay: 0.3s; }
+
+  /* ============================================================
+     RESPONSIVO
+     ============================================================ */
+  @media (max-width: 900px){
+    nav.menu-desktop{ display:none; }
+    .btn-hamburguer{ display:flex; }
+    .header-direita .botao-primario.somente-desktop{ display:none; }
+
+    .hero{ padding-top: 7.5rem; }
+    .hero-grid{ grid-template-columns: 1fr; gap: var(--espaco-m); }
+    .hero-imagem{ order:-1; aspect-ratio: 4/3; }
+    .hero-texto p{ max-width: none; }
+
+    .destaques-grid{ grid-template-columns: 1fr; gap: var(--espaco-s); }
+    .sobre-grid{ grid-template-columns: 1fr; }
+    .sobre-imagem{ order:-1; aspect-ratio: 16/10; }
+    .servicos-grid{ grid-template-columns: 1fr; }
+
+    .videos-faixa{
+      grid-template-columns: 1fr;
+      max-width: 420px;
+    }
+
+    .rodape-grid{ flex-direction: column; }
+    .rodape-base{ flex-direction: column; }
+  }
+
+  @media (max-width: 480px){
+    .container, .secao{ padding-left: 1.2rem; padding-right: 1.2rem; }
+    .hero{ padding-left: 1.2rem; padding-right: 1.2rem; }
+    .header-conteudo{ padding: 1rem 1.2rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     CABEÇALHO
+     ============================================================ -->
+<header>
+  <div class="header-conteudo">
+    <a href="#inicio" class="logo" data-nome-config>Alessandra</a>
+
+    <nav class="menu-desktop">
+      <ul>
+        <li><a href="#inicio">Início</a></li>
+        <li><a href="#sobre">Sobre</a></li>
+        <li><a href="#servicos">Serviços</a></li>
+        <li><a href="#resultados">Resultados</a></li>
+        <li><a href="#contato">Contato</a></li>
+      </ul>
+    </nav>
+
+    <div class="header-direita">
+      <a href="#contato" class="botao botao-primario somente-desktop">Agendar atendimento</a>
+      <button class="btn-hamburguer" id="btnHamburguer" aria-label="Abrir menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="menu-mobile" id="menuMobile">
+    <a href="#inicio" class="link-mobile">Início</a>
+    <a href="#sobre" class="link-mobile">Sobre</a>
+    <a href="#servicos" class="link-mobile">Serviços</a>
+    <a href="#resultados" class="link-mobile">Resultados</a>
+    <a href="#contato" class="link-mobile">Contato</a>
+    <a href="#contato" class="botao botao-primario link-mobile">Agendar atendimento</a>
+  </div>
+</header>
+
+<!-- ============================================================
+     HERO
+     ============================================================ -->
+<section class="hero" id="inicio">
+  <div class="hero-grid">
+    <div class="hero-texto surge">
+      <div class="eyebrow">Beleza & Autoestima</div>
+      <h1><span class="traco-assinatura" data-titulo-config>Beleza, transformação e autoestima em cada detalhe.</span></h1>
+      <p data-subtitulo-config>Um atendimento pensado para valorizar sua beleza, respeitar seu estilo e entregar resultados que fazem você se sentir ainda mais confiante.</p>
+      <div class="hero-botoes">
+        <a href="#" class="botao botao-primario" data-whatsapp-link>Agendar pelo WhatsApp</a>
+        <a href="#servicos" class="botao botao-secundario">Conhecer o trabalho</a>
+      </div>
+    </div>
+
+    <div class="hero-imagem surge surge-atraso-2">
+      <div class="hero-imagem-moldura" aria-hidden="true"></div>
+      <img src="foto-principal.jpg" alt="Alessandra, profissional de beleza e cabelos">
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     DESTAQUES
+     ============================================================ -->
+<section class="destaques">
+  <div class="destaques-grid">
+    <div class="destaque-card surge">
+      <div class="destaque-icone" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c0-3.9 3.1-7 7-7s7 3.1 7 7"/></svg>
+      </div>
+      <h3>Atendimento personalizado</h3>
+      <p>Cada avaliação considera seu estilo, sua rotina e o resultado que você deseja alcançar.</p>
+    </div>
+    <div class="destaque-card surge surge-atraso-1">
+      <div class="destaque-icone" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 2v4"/><path d="M12 18v4"/><path d="M4.9 4.9l2.8 2.8"/><path d="M16.3 16.3l2.8 2.8"/><path d="M2 12h4"/><path d="M18 12h4"/><path d="M4.9 19.1l2.8-2.8"/><path d="M16.3 7.7l2.8-2.8"/></svg>
+      </div>
+      <h3>Técnicas profissionais</h3>
+      <p>Processos atualizados e cuidadosos, aplicados com precisão em cada etapa do serviço.</p>
+    </div>
+    <div class="destaque-card surge surge-atraso-2">
+      <div class="destaque-icone" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 3l2.4 5.5L20 10l-4.6 3.6L16.5 20 12 16.8 7.5 20l1.1-6.4L4 10l5.6-1.5z"/></svg>
+      </div>
+      <h3>Resultados naturais</h3>
+      <p>Beleza que respeita suas características, sem exageros e com efeito duradouro.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SOBRE
+     ============================================================ -->
+<section class="secao secao-bege" id="sobre">
+  <div class="sobre-grid">
+    <div class="sobre-imagem surge">
+      <img src="foto-principal.jpg" alt="Detalhe do atendimento realizado por Alessandra">
+    </div>
+    <div class="sobre-texto surge surge-atraso-1">
+      <div class="eyebrow">Sobre o atendimento</div>
+      <h2 class="titulo-secao">Beleza que respeita quem você é</h2>
+      <p>Cada pessoa possui um estilo, uma história e uma beleza única. Por isso, cada atendimento é realizado com atenção, cuidado e uma avaliação personalizada.</p>
+      <p>Mais do que transformar cabelos, o objetivo é proporcionar uma experiência de autoestima, confiança e bem-estar.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SERVIÇOS
+     ============================================================ -->
+<!-- EDITAR AQUI: substitua os textos provisórios dos serviços pela lista definitiva quando estiver pronta -->
+<section class="secao secao-clara" id="servicos">
+  <div class="container" style="text-align:center; margin-bottom: var(--espaco-l);">
+    <div class="eyebrow" style="justify-content:center;">Serviços</div>
+    <h2 class="titulo-secao">O que preparamos para você</h2>
+  </div>
+  <div class="servicos-grid">
+    <div class="servico-card surge">
+      <span class="servico-numero">01</span>
+      <h3>Transformação de visual</h3>
+      <p>Mudanças pensadas para valorizar seus traços e seu estilo pessoal.</p>
+    </div>
+    <div class="servico-card surge surge-atraso-1">
+      <span class="servico-numero">02</span>
+      <h3>Cuidados e tratamentos</h3>
+      <p>Procedimentos voltados para saúde, brilho e força dos fios.</p>
+    </div>
+    <div class="servico-card surge surge-atraso-2">
+      <span class="servico-numero">03</span>
+      <h3>Técnicas de cor</h3>
+      <p>Colorações desenvolvidas com precisão para um resultado natural.</p>
+    </div>
+    <div class="servico-card surge">
+      <span class="servico-numero">04</span>
+      <h3>Finalização profissional</h3>
+      <p>O acabamento que dá o toque final e realça a transformação.</p>
+    </div>
+    <div class="servico-card surge surge-atraso-1">
+      <span class="servico-numero">05</span>
+      <h3>Atendimento personalizado</h3>
+      <p>Uma escuta atenta para entender exatamente o que você procura.</p>
+    </div>
+    <div class="servico-card surge surge-atraso-2">
+      <span class="servico-numero">06</span>
+      <h3>Consultoria de imagem e beleza</h3>
+      <p>Orientação para escolhas que combinam com sua rotina e personalidade.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     VÍDEOS
+     ============================================================ -->
+<section class="secao secao-escura" id="resultados">
+  <div class="videos-titulo">
+    <div class="eyebrow" style="justify-content:center;">Resultados</div>
+    <h2 class="titulo-secao">Transformações que falam por si</h2>
+    <p>Conheça um pouco do trabalho, dos processos e dos resultados.</p>
+  </div>
+
+  <div class="videos-faixa">
+    <div class="video-card surge">
+      <video src="video-1.mp4" muted loop playsinline preload="metadata"></video>
+      <span class="video-legenda">Processo 01</span>
+      <button class="btn-video" data-controle-video aria-label="Reproduzir ou pausar vídeo">
+        <svg viewBox="0 0 24 24" fill="currentColor" class="icone-play"><path d="M8 5v14l11-7z"/></svg>
+        <svg viewBox="0 0 24 24" fill="currentColor" class="icone-pause" style="display:none;"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>
+      </button>
+    </div>
+    <div class="video-card surge surge-atraso-1">
+      <video src="video-2.mp4" muted loop playsinline preload="metadata"></video>
+      <span class="video-legenda">Processo 02</span>
+      <button class="btn-video" data-controle-video aria-label="Reproduzir ou pausar vídeo">
+        <svg viewBox="0 0 24 24" fill="currentColor" class="icone-play"><path d="M8 5v14l11-7z"/></svg>
+        <svg viewBox="0 0 24 24" fill="currentColor" class="icone-pause" style="display:none;"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>
+      </button>
+    </div>
+    <div class="video-card surge surge-atraso-2">
+      <video src="video-3.mp4" muted loop playsinline preload="metadata"></video>
+      <span class="video-legenda">Processo 03</span>
+      <button class="btn-video" data-controle-video aria-label="Reproduzir ou pausar vídeo">
+        <svg viewBox="0 0 24 24" fill="currentColor" class="icone-play"><path d="M8 5v14l11-7z"/></svg>
+        <svg viewBox="0 0 24 24" fill="currentColor" class="icone-pause" style="display:none;"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CHAMADA PARA AÇÃO
+     ============================================================ -->
+<section class="secao secao-bege" id="contato">
+  <div class="cta surge">
+    <div class="eyebrow" style="justify-content:center;">Contato</div>
+    <h2 class="titulo-secao">Pronta para viver sua próxima transformação?</h2>
+    <p>Entre em contato e descubra qual atendimento combina com você.</p>
+    <!-- EDITAR AQUI: substitua o número no objeto CONFIG no início do JavaScript -->
+    <a href="#" class="botao botao-primario" data-whatsapp-link>Falar com Alessandra</a>
+  </div>
+</section>
+
+<!-- ============================================================
+     INSTAGRAM
+     ============================================================ -->
+<!-- EDITAR AQUI: substitua o endereço do Instagram no objeto CONFIG no início do JavaScript -->
+<section class="instagram surge">
+  <p>Acompanhe os trabalhos e novidades no Instagram.</p>
+  <a href="#" class="botao botao-secundario" data-instagram-link target="_blank" rel="noopener">Ver Instagram</a>
+</section>
+
+<!-- ============================================================
+     RODAPÉ
+     ============================================================ -->
+<footer>
+  <div class="rodape-grid">
+    <div>
+      <div class="rodape-marca" data-nome-config>Alessandra</div>
+      <p style="margin:0; max-width:320px; font-size:0.88rem;">Atendimento dedicado à beleza, ao cuidado e à autoestima de cada cliente.</p>
+    </div>
+    <div class="rodape-links">
+      <a href="#" data-whatsapp-link>WhatsApp</a>
+      <a href="#" data-instagram-link target="_blank" rel="noopener">Instagram</a>
+    </div>
+  </div>
+  <div class="rodape-base">
+    <span data-nome-config>Alessandra</span>
+    <span>© <span id="anoAtual"></span> Todos os direitos reservados.</span>
+  </div>
+</footer>
+
+<!-- BOTÃO FLUTUANTE WHATSAPP -->
+<a href="#" class="whatsapp-flutuante" data-whatsapp-link aria-label="Falar no WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.87 9.87 0 0 0 12.04 2zm5.8 14.16c-.24.68-1.4 1.33-1.94 1.4-.5.08-1.12.11-1.8-.11-.42-.13-.95-.31-1.64-.6-2.88-1.24-4.76-4.15-4.9-4.35-.14-.19-1.17-1.56-1.17-2.98 0-1.42.74-2.11 1-2.4.26-.29.57-.36.76-.36h.55c.18 0 .42-.03.65.5.24.58.82 2 .89 2.14.07.15.12.32.02.51-.1.19-.15.31-.29.48-.15.17-.31.38-.44.51-.15.15-.3.31-.13.6.17.29.75 1.24 1.62 2.02 1.11 1 2.05 1.31 2.34 1.46.29.15.46.13.63-.05.17-.19.72-.84.92-1.13.19-.29.38-.24.63-.14.26.1 1.65.78 1.93.92.29.15.48.22.55.34.07.13.07.75-.17 1.43z"/></svg>
+</a>
+
+<!-- ============================================================
+     JAVASCRIPT
+     ============================================================ -->
+<script>
+(function(){
+  "use strict";
+
+  /* ================================================
+     ÁREA DE CONFIGURAÇÃO — edite aqui os dados reais
+     ================================================ */
+  const CONFIG = {
+    nome: "Alessandra",
+    telefone: "5500000000000",       // EDITAR: apenas números, com DDI + DDD (ex: 5541999998888)
+    instagram: "https://instagram.com/", // EDITAR: link completo do Instagram
+    tituloPrincipal: "Beleza, transformação e autoestima em cada detalhe.",
+    subtitulo: "Um atendimento pensado para valorizar sua beleza, respeitar seu estilo e entregar resultados que fazem você se sentir ainda mais confiante."
+  };
+
+  /* Aplica a configuração aos elementos da página */
+  function aplicarConfig(){
+    document.querySelectorAll("[data-whatsapp-link]").forEach(function(el){
+      el.setAttribute("href", "https://wa.me/" + CONFIG.telefone);
+    });
+    document.querySelectorAll("[data-instagram-link]").forEach(function(el){
+      el.setAttribute("href", CONFIG.instagram);
+    });
+    document.querySelectorAll("[data-nome-config]").forEach(function(el){
+      el.textContent = CONFIG.nome;
+    });
+  }
+  aplicarConfig();
+
+  /* ================================================
+     MENU MOBILE
+     ================================================ */
+  const btnHamburguer = document.getElementById("btnHamburguer");
+  const menuMobile = document.getElementById("menuMobile");
+
+  function alternarMenu(){
+    const aberto = menuMobile.classList.toggle("aberto");
+    btnHamburguer.classList.toggle("aberto", aberto);
+    btnHamburguer.setAttribute("aria-expanded", aberto ? "true" : "false");
+    document.body.style.overflow = aberto ? "hidden" : "";
+  }
+
+  btnHamburguer.addEventListener("click", alternarMenu);
+
+  menuMobile.querySelectorAll("a").forEach(function(link){
+    link.addEventListener("click", function(){
+      if(menuMobile.classList.contains("aberto")){
+        alternarMenu();
+      }
+    });
+  });
+
+  /* ================================================
+     ANO ATUAL NO RODAPÉ
+     ================================================ */
+  document.getElementById("anoAtual").textContent = new Date().getFullYear();
+
+  /* ================================================
+     ANIMAÇÃO DE ENTRADA AO ROLAR
+     ================================================ */
+  const prefereReduzirMovimento = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if(prefereReduzirMovimento){
+    document.querySelectorAll(".surge").forEach(function(el){ el.classList.add("visivel"); });
+  } else if("IntersectionObserver" in window){
+    const observadorEntrada = new IntersectionObserver(function(entradas){
+      entradas.forEach(function(entrada){
+        if(entrada.isIntersecting){
+          entrada.target.classList.add("visivel");
+          observadorEntrada.unobserve(entrada.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: "0px 0px -40px 0px" });
+
+    document.querySelectorAll(".surge").forEach(function(el){
+      observadorEntrada.observe(el);
+    });
+  } else {
+    document.querySelectorAll(".surge").forEach(function(el){ el.classList.add("visivel"); });
+  }
+
+  /* ================================================
+     VÍDEOS — autoplay ao entrar na tela, pausa ao sair
+     ================================================ */
+  const cartoesVideo = document.querySelectorAll(".video-card");
+
+  cartoesVideo.forEach(function(cartao){
+    const video = cartao.querySelector("video");
+    const botao = cartao.querySelector("[data-controle-video]");
+    const iconePlay = botao.querySelector(".icone-play");
+    const iconePause = botao.querySelector(".icone-pause");
+    let pausadoManualmente = false;
+
+    function atualizarIcones(){
+      const tocando = !video.paused;
+      iconePlay.style.display = tocando ? "none" : "block";
+      iconePause.style.display = tocando ? "block" : "none";
+    }
+
+    video.addEventListener("play", atualizarIcones);
+    video.addEventListener("pause", atualizarIcones);
+
+    botao.addEventListener("click", function(){
+      if(video.paused){
+        video.play().catch(function(){});
+        pausadoManualmente = false;
+      } else {
+        video.pause();
+        pausadoManualmente = true;
+      }
+    });
+
+    if("IntersectionObserver" in window){
+      const observadorVideo = new IntersectionObserver(function(entradas){
+        entradas.forEach(function(entrada){
+          if(entrada.isIntersecting){
+            if(!pausadoManualmente){
+              video.play().catch(function(){});
+            }
+          } else {
+            video.pause();
+          }
+        });
+      }, { threshold: 0.5 });
+
+      observadorVideo.observe(cartao);
+    }
+  });
+
+  /* ================================================
+     CABEÇALHO — leve sombra ao rolar
+     ================================================ */
+  const cabecalho = document.querySelector("header");
+  window.addEventListener("scroll", function(){
+    if(window.scrollY > 12){
+      cabecalho.style.boxShadow = "0 8px 24px -18px rgba(17,17,16,0.4)";
+    } else {
+      cabecalho.style.boxShadow = "none";
+    }
+  }, { passive: true });
+
+})();
+</script>
+
+</body>
+</html>
