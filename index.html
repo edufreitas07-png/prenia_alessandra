@@ -492,9 +492,16 @@
     border-bottom: 1px solid rgba(244,239,228,0.12);
   }
   .rodape-marca{ font-family: var(--serif); font-size: 1.4rem; color: var(--texto-claro); margin-bottom: 0.6rem; }
-  .rodape-links{ display:flex; gap: 1.6rem; }
+  .rodape-links{ display:flex; gap: 1.6rem; flex-wrap: wrap; }
   .rodape-links a{ transition: color 0.3s ease; font-size: 0.9rem; }
   .rodape-links a:hover{ color: var(--dourado-suave); }
+  .rodape-link-icone{
+    display:inline-flex;
+    align-items:center;
+    gap: 0.5rem;
+    color: var(--texto-claro);
+  }
+  .rodape-link-icone:hover{ color: var(--dourado-suave); }
   .rodape-base{
     max-width: 1180px;
     margin: 0 auto;
@@ -509,19 +516,25 @@
   /* BOTÃO FLUTUANTE WHATSAPP */
   .whatsapp-flutuante{
     position: fixed;
-    right: 1.3rem;
-    bottom: 1.3rem;
+    right: 16px;
+    top: 58%;
+    transform: translateY(-50%);
     z-index: 900;
-    width: 54px; height: 54px;
+    width: 48px; height: 48px;
     border-radius: 50%;
-    background: var(--preto);
-    color: var(--texto-claro);
+    background: var(--dourado-suave);
+    color: var(--preto);
     display:flex; align-items:center; justify-content:center;
     box-shadow: var(--sombra-suave);
     transition: transform 0.35s ease, background 0.35s ease;
   }
-  .whatsapp-flutuante:hover{ transform: scale(1.08); background: var(--dourado); color: var(--preto); }
-  .whatsapp-flutuante svg{ width:24px; height:24px; }
+  .whatsapp-flutuante:hover{ transform: translateY(-50%) scale(1.08); background: var(--dourado); color: var(--preto); }
+  .whatsapp-flutuante svg{ width:22px; height:22px; }
+
+  @media (max-width: 900px){
+    .whatsapp-flutuante{ width:44px; height:44px; right:12px; }
+    .whatsapp-flutuante svg{ width:20px; height:20px; }
+  }
 
   /* ANIMAÇÃO DE ENTRADA AO ROLAR */
   .surge{
@@ -622,7 +635,7 @@
 
     <div class="hero-imagem surge surge-atraso-2">
       <div class="hero-imagem-moldura" aria-hidden="true"></div>
-      <img src="foto-principal.jpg" alt="Alessandra, profissional de beleza e cabelos">
+      <img src="assets/imagens/foto-principal.jpg" alt="Alessandra, profissional de beleza e cabelos">
     </div>
   </div>
 </section>
@@ -662,7 +675,7 @@
 <section class="secao secao-bege" id="sobre">
   <div class="sobre-grid">
     <div class="sobre-imagem surge">
-      <img src="foto-principal.jpg" alt="Detalhe do atendimento realizado por Alessandra">
+      <img src="assets/imagens/foto-principal.jpg" alt="Detalhe do atendimento realizado por Alessandra">
     </div>
     <div class="sobre-texto surge surge-atraso-1">
       <div class="eyebrow">Sobre o atendimento</div>
@@ -728,7 +741,7 @@
 
   <div class="videos-faixa">
     <div class="video-card surge">
-      <video src="video-1.mp4" muted loop playsinline preload="metadata"></video>
+      <video src="assets/video-1.mp4" muted loop playsinline preload="metadata"></video>
       <span class="video-legenda">Processo 01</span>
       <button class="btn-video" data-controle-video aria-label="Reproduzir ou pausar vídeo">
         <svg viewBox="0 0 24 24" fill="currentColor" class="icone-play"><path d="M8 5v14l11-7z"/></svg>
@@ -736,7 +749,7 @@
       </button>
     </div>
     <div class="video-card surge surge-atraso-1">
-      <video src="video-2.mp4" muted loop playsinline preload="metadata"></video>
+      <video src="assets/video-2.mp4" muted loop playsinline preload="metadata"></video>
       <span class="video-legenda">Processo 02</span>
       <button class="btn-video" data-controle-video aria-label="Reproduzir ou pausar vídeo">
         <svg viewBox="0 0 24 24" fill="currentColor" class="icone-play"><path d="M8 5v14l11-7z"/></svg>
@@ -744,7 +757,7 @@
       </button>
     </div>
     <div class="video-card surge surge-atraso-2">
-      <video src="video-3.mp4" muted loop playsinline preload="metadata"></video>
+      <video src="assets/video-3.mp4" muted loop playsinline preload="metadata"></video>
       <span class="video-legenda">Processo 03</span>
       <button class="btn-video" data-controle-video aria-label="Reproduzir ou pausar vídeo">
         <svg viewBox="0 0 24 24" fill="currentColor" class="icone-play"><path d="M8 5v14l11-7z"/></svg>
@@ -768,15 +781,6 @@
 </section>
 
 <!-- ============================================================
-     INSTAGRAM
-     ============================================================ -->
-<!-- EDITAR AQUI: substitua o endereço do Instagram no objeto CONFIG no início do JavaScript -->
-<section class="instagram surge">
-  <p>Acompanhe os trabalhos e novidades no Instagram.</p>
-  <a href="#" class="botao botao-secundario" data-instagram-link target="_blank" rel="noopener">Ver Instagram</a>
-</section>
-
-<!-- ============================================================
      RODAPÉ
      ============================================================ -->
 <footer>
@@ -786,8 +790,14 @@
       <p style="margin:0; max-width:320px; font-size:0.88rem;">Atendimento dedicado à beleza, ao cuidado e à autoestima de cada cliente.</p>
     </div>
     <div class="rodape-links">
-      <a href="#" data-whatsapp-link>WhatsApp</a>
-      <a href="#" data-instagram-link target="_blank" rel="noopener">Instagram</a>
+      <a href="#" data-whatsapp-link class="rodape-link-icone">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.87 9.87 0 0 0 12.04 2zm5.8 14.16c-.24.68-1.4 1.33-1.94 1.4-.5.08-1.12.11-1.8-.11-.42-.13-.95-.31-1.64-.6-2.88-1.24-4.76-4.15-4.9-4.35-.14-.19-1.17-1.56-1.17-2.98 0-1.42.74-2.11 1-2.4.26-.29.57-.36.76-.36h.55c.18 0 .42-.03.65.5.24.58.82 2 .89 2.14.07.15.12.32.02.51-.1.19-.15.31-.29.48-.15.17-.31.38-.44.51-.15.15-.3.31-.13.6.17.29.75 1.24 1.62 2.02 1.11 1 2.05 1.31 2.34 1.46.29.15.46.13.63-.05.17-.19.72-.84.92-1.13.19-.29.38-.24.63-.14.26.1 1.65.78 1.93.92.29.15.48.22.55.34.07.13.07.75-.17 1.43z"/></svg>
+        <span>WhatsApp</span>
+      </a>
+      <a href="#" data-instagram-link class="rodape-link-icone">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="16" height="16" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1"/></svg>
+        <span data-instagram-usuario>Instagram</span>
+      </a>
     </div>
   </div>
   <div class="rodape-base">
@@ -813,22 +823,32 @@
      ================================================ */
   const CONFIG = {
     nome: "Alessandra",
-    telefone: "5500000000000",       // EDITAR: apenas números, com DDI + DDD (ex: 5541999998888)
-    instagram: "https://instagram.com/", // EDITAR: link completo do Instagram
+    telefone: "5583988032244",
+    instagram: "https://www.instagram.com/alessandrahair_stylist/",
     tituloPrincipal: "Beleza, transformação e autoestima em cada detalhe.",
     subtitulo: "Um atendimento pensado para valorizar sua beleza, respeitar seu estilo e entregar resultados que fazem você se sentir ainda mais confiante."
   };
 
+  const mensagemWhatsapp = "Olá, Alessandra! Vi seu site e gostaria de saber mais sobre os atendimentos.";
+  const linkWhatsapp = "https://wa.me/" + CONFIG.telefone + "?text=" + encodeURIComponent(mensagemWhatsapp);
+
   /* Aplica a configuração aos elementos da página */
   function aplicarConfig(){
     document.querySelectorAll("[data-whatsapp-link]").forEach(function(el){
-      el.setAttribute("href", "https://wa.me/" + CONFIG.telefone);
+      el.setAttribute("href", linkWhatsapp);
+      el.setAttribute("target", "_blank");
+      el.setAttribute("rel", "noopener noreferrer");
     });
     document.querySelectorAll("[data-instagram-link]").forEach(function(el){
       el.setAttribute("href", CONFIG.instagram);
+      el.setAttribute("target", "_blank");
+      el.setAttribute("rel", "noopener noreferrer");
     });
     document.querySelectorAll("[data-nome-config]").forEach(function(el){
       el.textContent = CONFIG.nome;
+    });
+    document.querySelectorAll("[data-instagram-usuario]").forEach(function(el){
+      el.textContent = "@alessandrahair_stylist";
     });
   }
   aplicarConfig();
